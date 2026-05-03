@@ -17,6 +17,7 @@
             text-align: center;
             padding: 40px 20px 20px;
             position: relative;
+            z-index: 10; /* Ensure header stays above other content */
         }
 
         header h1 {
@@ -46,6 +47,9 @@
             font-weight: 500;
             transition: background 0.3s ease;
             box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            z-index: 100; /* HIGH z-index to ensure it's always clickable */
+            cursor: pointer;
+            display: inline-block;
         }
 
         .back-btn:hover {
@@ -58,18 +62,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 60px;                 /* wider gap between video and text */
-            padding: 50px 20px;        /* more vertical padding so sections feel separated */
+            gap: 60px;
+            padding: 50px 20px;
             max-width: 1100px;
-            margin: 0 auto;            /* no collapsing margins, spacing controlled by padding */
+            margin: 0 auto;
             flex-wrap: wrap;
+            position: relative;
+            z-index: 1; /* Lower than header/button */
         }
 
         .section:nth-child(even) {
             flex-direction: row-reverse;
         }
 
-        /* Video container – uniform dimensions, consistent look */
+        /* Video container – uniform dimensions */
         .video {
             width: 400px;
             height: 225px;
@@ -82,11 +88,10 @@
             font-weight: 500;
             box-shadow: 0 15px 25px rgba(0,0,0,0.15);
             flex-shrink: 0;
-            overflow: hidden;          /* ensures iframe/video stays inside rounded corners */
+            overflow: hidden;
             position: relative;
         }
 
-        /* make iframe fill the .video container completely */
         .video iframe {
             position: absolute;
             top: 0;
@@ -97,7 +102,6 @@
             border-radius: 18px;
         }
 
-        /* Text column */
         .text {
             max-width: 380px;
             color: #475569;
@@ -110,13 +114,15 @@
         /* Age calculator container */
         .calculator-container {
             max-width: 850px;
-            margin: 50px auto 30px;    /* clear space above calculator */
+            margin: 50px auto 30px;
             padding: 30px 25px;
             background: #f0e6d2;
             border-radius: 28px;
             box-shadow: 0 12px 24px rgba(0,0,0,0.08);
             text-align: center;
             border: 1px solid #e7d7b8;
+            position: relative;
+            z-index: 1;
         }
 
         .calculator-container h3 {
@@ -158,12 +164,11 @@
             padding: 12px 28px;
             font-size: 16px;
             font-weight: 600;
-            background: #d2a679;
+            background: #d9b382;
             border: none;
             border-radius: 30px;
             cursor: pointer;
             color: #2e2416;
-            background: #d9b382;
             transition: 0.25s;
             letter-spacing: 0.3px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -224,9 +229,10 @@
             font-size: 14px;
             margin-top: 50px;
             font-weight: 500;
+            position: relative;
+            z-index: 1;
         }
 
-        /* responsive behaviour */
         @media (max-width: 768px) {
             .section {
                 flex-direction: column !important;
@@ -237,7 +243,7 @@
                 width: 100%;
                 max-width: 400px;
                 height: auto;
-                aspect-ratio: 16 / 9;   /* maintain video shape on small screens */
+                aspect-ratio: 16 / 9;
             }
             .text {
                 max-width: 100%;
@@ -245,6 +251,12 @@
             }
             header h1 {
                 font-size: 2.2rem;
+            }
+            .back-btn {
+                top: 10px;
+                left: 10px;
+                padding: 6px 12px;
+                font-size: 13px;
             }
         }
     </style>
@@ -258,7 +270,7 @@
     <p>Showcase of planetary renders and animations created in Blender.</p>
 </header>
 
-<!-- 8 PLANET SECTIONS – all placeholders preserved, spacing fixed -->
+<!-- 8 PLANET SECTIONS – all placeholders preserved -->
 <div class="section">
     <div class="video">Video Placeholder</div>
     <div class="text">Mercury - Placeholder description.</div>
@@ -271,7 +283,6 @@
 
 <div class="section">
     <div class="video">
-        <!-- Earth video: using iframe, but container keeps uniform size -->
         <iframe src="https://www.youtube.com/embed/_Mo1C1-xHws" 
                 title="Earth TEST" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
@@ -307,7 +318,7 @@
     <div class="text">Neptune - Placeholder description.</div>
 </div>
 
-<!-- ========== AGE CALCULATOR (unchanged functionality, style refined) ========== -->
+<!-- ========== AGE CALCULATOR ========== -->
 <div class="calculator-container">
     <h3>🌍 Planetary Age Calculator</h3>
     <p>Enter your age in Earth years to see how old you would be on other planets (based on orbital periods).</p>
