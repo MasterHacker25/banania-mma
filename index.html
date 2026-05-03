@@ -1,568 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Creative Tools • Rotoscope & Blender</title>
-  <meta name="description" content="Explore rotoscoping animation and Blender 3D artistry — a clean multi-page showcase.">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #fdf6e3; /* cream background */
+            color: #1e293b;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
-    body {
-      background: linear-gradient(145deg, #f7f9fc 0%, #eef2f5 100%);
-      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-      line-height: 1.5;
-      color: #1a2c3e;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+        header {
+            text-align: center;
+            padding: 40px 20px 20px; /* added more breathing space */
+        }
 
-    /* modern glassmorphic header */
-    header {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
+        header h1 {
+            margin: 0;
+            font-size: 36px;
+        }
 
-    nav {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 1rem 2rem;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 1rem;
-    }
+        header p {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #475569;
+        }
 
-    .logo a {
-      font-weight: 700;
-      font-size: 1.6rem;
-      letter-spacing: -0.3px;
-      background: linear-gradient(135deg, #1e2f3d, #2c5a6e);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-      text-decoration: none;
-      transition: opacity 0.2s;
-    }
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 40px; /* more spacing between title and cards */
+        }
 
-    .logo a:hover {
-      opacity: 0.8;
-    }
+        .container {
+            display: flex;
+            gap: 40px;
+        }
 
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
+        .card {
+            width: 200px;
+            height: 200px;
+            background: #d2a679; /* light brown */
+            color: #3b2f2f; /* darker brown text for better contrast */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
 
-    .nav-links li a {
-      text-decoration: none;
-      font-weight: 500;
-      color: #2c4b5f;
-      padding: 0.5rem 0;
-      transition: all 0.2s;
-      border-bottom: 2px solid transparent;
-    }
+        .card:hover {
+            transform: scale(1.05);
+            background: #b88a5a; /* darker brown on hover */
+        }
 
-    .nav-links li a.active {
-      color: #1f6392;
-      border-bottom-color: #1f6392;
-    }
+        a {
+            text-decoration: none;
+        }
 
-    .nav-links li a:not(.active):hover {
-      color: #0f3b4f;
-      border-bottom-color: #9bc7df;
-    }
-
-    /* main container + page transitions */
-    .page-container {
-      flex: 1;
-      max-width: 1280px;
-      width: 100%;
-      margin: 2rem auto;
-      padding: 0 2rem 3rem;
-    }
-
-    /* each page view */
-    .page {
-      display: none;
-      animation: fadeSlideUp 0.35s ease-out;
-    }
-
-    .page.active-page {
-      display: block;
-    }
-
-    @keyframes fadeSlideUp {
-      0% {
-        opacity: 0;
-        transform: translateY(12px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* cards & grids */
-    .hero {
-      background: white;
-      border-radius: 2rem;
-      padding: 2.5rem;
-      margin-bottom: 2.5rem;
-      box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.08);
-      border: 1px solid rgba(0, 0, 0, 0.03);
-    }
-
-    .hero h1 {
-      font-size: 2.8rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      background: linear-gradient(to right, #1a3b4e, #2a6b85);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-      margin-bottom: 1rem;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      color: #2c4e6e;
-      max-width: 80%;
-    }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      margin-top: 1rem;
-    }
-
-    .card {
-      background: white;
-      border-radius: 1.5rem;
-      padding: 1.8rem;
-      transition: all 0.25s;
-      box-shadow: 0 5px 18px rgba(0, 0, 0, 0.05);
-      border: 1px solid #eef2f8;
-    }
-
-    .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.12);
-      border-color: #cbdde9;
-    }
-
-    .card h3 {
-      font-size: 1.7rem;
-      font-weight: 600;
-      margin-bottom: 0.75rem;
-      color: #1b4c6e;
-    }
-
-    .card p {
-      color: #3b5e7a;
-      margin-bottom: 1.2rem;
-    }
-
-    .badge {
-      display: inline-block;
-      background: #e5f0f7;
-      padding: 0.25rem 0.9rem;
-      border-radius: 40px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: #136b8d;
-      margin-top: 0.5rem;
-    }
-
-    .section-title {
-      font-size: 1.8rem;
-      font-weight: 600;
-      margin: 1rem 0 1.8rem 0;
-      border-left: 5px solid #2f8db0;
-      padding-left: 1.2rem;
-      color: #1a455e;
-    }
-
-    .feature-block {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-      background: white;
-      border-radius: 2rem;
-      padding: 2rem;
-      margin-bottom: 2rem;
-      align-items: center;
-      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.04);
-    }
-
-    .feature-text {
-      flex: 2;
-    }
-
-    .feature-text h2 {
-      font-size: 1.8rem;
-      margin-bottom: 0.8rem;
-    }
-
-    .feature-list {
-      margin-top: 1rem;
-      list-style: none;
-    }
-
-    .feature-list li {
-      margin-bottom: 0.6rem;
-      display: flex;
-      align-items: center;
-      gap: 0.7rem;
-    }
-
-    .feature-list li::before {
-      content: "✦";
-      color: #2f8db0;
-      font-weight: bold;
-    }
-
-    .visual-placeholder {
-      flex: 1;
-      background: linear-gradient(125deg, #d9e6f2, #caddf0);
-      border-radius: 1.5rem;
-      min-height: 200px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      color: #1f5e7e;
-      font-size: 1rem;
-      text-align: center;
-      padding: 2rem;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.6), 0 8px 18px rgba(0,0,0,0.05);
-    }
-
-    footer {
-      text-align: center;
-      padding: 2rem;
-      color: #5e7e96;
-      border-top: 1px solid #dce5ec;
-      margin-top: 2rem;
-      background: #f9fbfd;
-      font-size: 0.85rem;
-    }
-
-    @media (max-width: 720px) {
-      nav {
-        flex-direction: column;
-        align-items: center;
-        padding: 1rem;
-      }
-      .hero p {
-        max-width: 100%;
-      }
-      .hero h1 {
-        font-size: 2rem;
-      }
-      .feature-block {
-        flex-direction: column;
-      }
-      .page-container {
-        padding: 0 1rem 2rem;
-      }
-    }
-
-    button, .mock-btn {
-      background: none;
-      border: none;
-    }
-  </style>
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: #d2a679; /* light brown footer */
+            color: #3b2f2f;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
 
-<header>
-  <nav>
-    <div class="logo"><a href="#" data-nav="home">◈ creative<span style="font-weight:500">/tools</span></a></div>
-    <ul class="nav-links">
-      <li><a href="#" data-nav="home" class="nav-link active" id="nav-home">Home</a></li>
-      <li><a href="#" data-nav="rotoscope" class="nav-link" id="nav-rotoscope">Rotoscope</a></li>
-      <li><a href="#" data-nav="blender" class="nav-link" id="nav-blender">Blender</a></li>
-    </ul>
-  </nav>
-</header>
+<div class="main">
+    <header>
+        <h1>Multimedia and Authoring Portfolio</h1>
+        <p>This is a short placeholder description for your website. You can change this anytime.</p>
+    </header>
 
-<main class="page-container">
-  <!-- HOME PAGE -->
-  <div id="home-page" class="page active-page">
-    <div class="hero">
-      <h1>Frame by frame · 3D world</h1>
-      <p>Explore two powerful creative techniques: the handcrafted soul of rotoscoping and the limitless dimension of Blender 3D.</p>
-    </div>
-    <div class="card-grid">
-      <div class="card">
-        <h3>🎞️ Rotoscope</h3>
-        <p>Trace motion frame-by-frame to create fluid, expressive animation. Used in classics like 'A-ha - Take On Me' and modern indie projects.</p>
-        <span class="badge">frame‑by‑frame · live‑action reference</span>
-      </div>
-      <div class="card">
-        <h3>🌀 Blender</h3>
-        <p>Open-source 3D creation suite. Modeling, sculpting, VFX, rendering, and real-time Eevee — all at your fingertips.</p>
-        <span class="badge">3D modeling · animation · rendering</span>
-      </div>
-      <div class="card">
-        <h3>⚡ Creative fusion</h3>
-        <p>Combine rotoscoped 2D characters with 3D environments, or bring hand-drawn textures into your Blender shaders.</p>
-        <span class="badge">hybrid workflows · next‑gen art</span>
-      </div>
-    </div>
+    <div class="container">
+        <a href="rotoscope.html">
+            <div class="card">Rotoscope</div>
+        </a>
 
-    <div class="section-title">Why these matter</div>
-    <div class="feature-block">
-      <div class="feature-text">
-        <h2>Rotoscoping: the art of reality</h2>
-        <p>Rotoscoping gives animators superpowers — capturing authentic human movement and transforming it into stylized, dreamlike sequences. It bridges live-action cinema and drawn imagination.</p>
-        <ul class="feature-list">
-          <li>Iconic music videos & VFX breakthroughs</li>
-          <li>Perfect for motion studies & experimental films</li>
-          <li>Used in games for rotoscope-animated cutscenes</li>
-        </ul>
-      </div>
-      <div class="visual-placeholder">✧ frame-by-frame ✧<br> manual tracing, digital innovation</div>
+        <a href="blender.html">
+            <div class="card">Blender</div>
+        </a>
     </div>
-    <div class="feature-block">
-      <div class="feature-text">
-        <h2>Blender: limitless 3D playground</h2>
-        <p>From modeling to physics simulations, Blender empowers independent artists and major studios. Grease Pencil even fuses 2D/3D workflows.</p>
-        <ul class="feature-list">
-          <li>Full pipeline: modeling, rigging, animation, compositing</li>
-          <li>Real-time render with Eevee + path-tracing Cycles</li>
-          <li>Massive community & open-source freedom</li>
-        </ul>
-      </div>
-      <div class="visual-placeholder">🌀 3D viewport • nodes • sculpting<br>Grease Pencil magic</div>
-    </div>
-  </div>
-
-  <!-- ROTOSCOPE SUBPAGE -->
-  <div id="rotoscope-page" class="page">
-    <div class="hero" style="background: linear-gradient(115deg, #fff, #fef5e7);">
-      <h1>🎞️ Rotoscope Animation</h1>
-      <p>Where cinema meets illustration — tracing reality to create fluid motion and expressive characters.</p>
-    </div>
-
-    <div class="feature-block">
-      <div class="feature-text">
-        <h2>What is rotoscoping?</h2>
-        <p>Rotoscoping is an animation technique where animators trace over live-action footage, frame by frame, to produce realistic and surreal motion. Initially invented by Max Fleischer in 1915, it evolved into a powerful digital tool used in films, music videos, and VFX.</p>
-        <p style="margin-top: 1rem;">Modern rotoscoping combines AI-assisted rotoscoping (like Rotobrush in After Effects) or meticulous manual drawing in software like Procreate, TVPaint, or even Blender's Grease Pencil.</p>
-      </div>
-      <div class="visual-placeholder">🎬 frame trace → hand-drawn magic<br>classic: 'Waking Life' (2001)</div>
-    </div>
-
-    <div class="section-title">✨ iconic rotoscope examples</div>
-    <div class="card-grid">
-      <div class="card">
-        <h3>🎶 Take On Me (A-ha)</h3>
-        <p>The legendary music video blended pencil-sketch rotoscoping with live-action, creating an unforgettable visual style.</p>
-      </div>
-      <div class="card">
-        <h3>🎥 The Lord of the Rings (1978)</h3>
-        <p>Ralph Bakshi combined rotoscoped characters with painted backgrounds to give epic fantasy a gritty, ethereal look.</p>
-      </div>
-      <div class="card">
-        <h3>🕹️ Video Games</h3>
-        <p>Games like 'Another World' (Out of This World) and 'Prince of Persia' used rotoscoped animation for realistic running and swordfighting.</p>
-      </div>
-    </div>
-
-    <div class="feature-block" style="background:#fefaf5;">
-      <div class="feature-text">
-        <h2>💡 modern rotoscope workflows</h2>
-        <p>Artists today use software like Adobe Animate, DaVinci Resolve (Fusion), Blender, and even AI segmentation. Whether you work frame-by-frame or combine neural networks, rotoscoping remains a cornerstone of motion design.</p>
-        <ul class="feature-list">
-          <li>Blender Grease Pencil: trace over movie clip</li>
-          <li>After Effects: Rotobrush for semi-auto masking</li>
-          <li>Procreate: hand-drawn rotoscope on iPad</li>
-        </ul>
-      </div>
-      <div class="visual-placeholder">✍️ frame 12 / 24<br>organic line art + motion blur</div>
-    </div>
-  </div>
-
-  <!-- BLENDER SUBPAGE -->
-  <div id="blender-page" class="page">
-    <div class="hero" style="background: linear-gradient(115deg, #f1f6fe, #e9f0fa);">
-      <h1>🌀 Blender 3D Universe</h1>
-      <p>The free, open-source 3D suite for modeling, sculpting, VFX, animation, and beyond.</p>
-    </div>
-
-    <div class="feature-block">
-      <div class="feature-text">
-        <h2>Blender's creative core</h2>
-        <p>Blender provides an end-to-end 3D pipeline: polygonal modeling, subdivision surfaces, sculpting tools, procedural shaders, physics simulations (cloth, fluids, smoke), and a powerful video editor. Its active community develops incredible add-ons everyday.</p>
-        <p style="margin-top: 0.75rem;">Two built-in renderers: <strong>Cycles</strong> (physically based ray-tracing) and <strong>Eevee</strong> (real-time rasterization). Perfect for stylized animation, product viz, or cinematic shorts.</p>
-      </div>
-      <div class="visual-placeholder">⚡ Cycles render • geometry nodes<br>Blender 4.x+</div>
-    </div>
-
-    <div class="section-title">🔧 Key tools & techniques</div>
-    <div class="card-grid">
-      <div class="card">
-        <h3>🔨 Modeling & Sculpting</h3>
-        <p>Create hard-surface assets, characters, and organic creatures with dynamic topology and multi-resolution sculpting.</p>
-      </div>
-      <div class="card">
-        <h3>🎨 Grease Pencil</h3>
-        <p>2D animation inside a 3D space — storyboard, rotoscope, or draw full 2D scenes that interact with 3D objects.</p>
-      </div>
-      <div class="card">
-        <h3>🧩 Geometry Nodes</h3>
-        <p>Procedural modeling system to generate complex scenes, from forests to abstract motion graphics, non-destructively.</p>
-      </div>
-    </div>
-
-    <div class="feature-block" style="background:#eef3fc;">
-      <div class="feature-text">
-        <h2>📽️ real-world Blender masterpieces</h2>
-        <p>Blender has been used in feature films like 'Next Gen' (Netflix), short films 'Sprite Fright', 'Coffee Run', and countless indie games. With a thriving YouTube tutorial ecosystem, anyone can start today.</p>
-        <ul class="feature-list">
-          <li>Animation & Rigging: armatures, shape keys, NLA editor</li>
-          <li>VFX: camera tracking, green screen keying, compositor</li>
-          <li>Shading nodes: custom PBR materials, toon shaders</li>
-        </ul>
-      </div>
-      <div class="visual-placeholder">🌀 Blender open movies: assets & full pipelines available</div>
-    </div>
-
-    <div class="card-grid" style="margin-top: 1rem;">
-      <div class="card">
-        <h3>📚 learning resources</h3>
-        <p>Blender Studio, CG Cookie, Grant Abbitt, Blender Guru — beginner to pro courses completely free & paid.</p>
-      </div>
-      <div class="card">
-        <h3>🧪 add-ons & community</h3>
-        <p>Thousands of extensions: HardOps, Auto-Rig Pro, Botanic. Join Blender Artists forums and r/blender.</p>
-      </div>
-    </div>
-  </div>
-</main>
+</div>
 
 <footer>
-  <p>✨ interactive showcase — Rotoscope & Blender | navigation without reload • creative tools exploration</p>
-  <p style="margin-top: 0.5rem;">all content for inspiration | modern animation & 3D design</p>
+    <p>© 2026 Multimedia and Authoring | Banania, Carl Alvin R.</p>
 </footer>
 
-<script>
-  (function() {
-    // Page IDs mapping
-    const pages = {
-      home: document.getElementById('home-page'),
-      rotoscope: document.getElementById('rotoscope-page'),
-      blender: document.getElementById('blender-page')
-    };
-
-    const navLinks = {
-      home: document.getElementById('nav-home'),
-      rotoscope: document.getElementById('nav-rotoscope'),
-      blender: document.getElementById('nav-blender')
-    };
-
-    // helper: set active page and update active class on nav
-    function setActivePage(pageId) {
-      // deactivate all pages
-      Object.values(pages).forEach(page => {
-        if (page) page.classList.remove('active-page');
-      });
-      // activate selected page
-      const activePage = pages[pageId];
-      if (activePage) activePage.classList.add('active-page');
-
-      // update nav active styles
-      Object.keys(navLinks).forEach(key => {
-        const link = navLinks[key];
-        if (link) {
-          if (key === pageId) {
-            link.classList.add('active');
-          } else {
-            link.classList.remove('active');
-          }
-        }
-      });
-
-      // optional: update browser URL hash without hard reload (clean)
-      if (window.location.hash !== `#${pageId}`) {
-        history.pushState(null, '', `#${pageId}`);
-      }
-    }
-
-    // event handler for nav clicks
-    function handleNavClick(event, pageId) {
-      event.preventDefault();
-      setActivePage(pageId);
-    }
-
-    // attach event listeners
-    if (navLinks.home) {
-      navLinks.home.addEventListener('click', (e) => handleNavClick(e, 'home'));
-    }
-    if (navLinks.rotoscope) {
-      navLinks.rotoscope.addEventListener('click', (e) => handleNavClick(e, 'rotoscope'));
-    }
-    if (navLinks.blender) {
-      navLinks.blender.addEventListener('click', (e) => handleNavClick(e, 'blender'));
-    }
-
-    // handle initial load: check hash or default home
-    function getPageFromHash() {
-      const hash = window.location.hash.slice(1); // remove '#'
-      if (hash === 'rotoscope') return 'rotoscope';
-      if (hash === 'blender') return 'blender';
-      if (hash === 'home') return 'home';
-      return 'home'; // default homepage
-    }
-
-    // handle popstate (back/forward)
-    window.addEventListener('popstate', () => {
-      const pageFromHash = getPageFromHash();
-      setActivePage(pageFromHash);
-    });
-
-    // initial activation based on hash or default
-    const startPage = getPageFromHash();
-    setActivePage(startPage);
-
-    // optional: handle logo click (home)
-    const logoLink = document.querySelector('.logo a');
-    if (logoLink) {
-      logoLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        setActivePage('home');
-      });
-    }
-
-    // Fix for any unexpected double navigation: ensure that if any other anchor points try to navigate
-    // we prevent default if needed — but all main navs are handled.
-    const allNavAnchors = document.querySelectorAll('.nav-links a');
-    allNavAnchors.forEach(anchor => {
-      anchor.addEventListener('click', (e) => {
-        // already handled in specific links, but for safety prevent default duplicate
-        const href = anchor.getAttribute('data-nav');
-        if (href && pages[href]) {
-          e.preventDefault();
-          setActivePage(href);
-        }
-      });
-    });
-  })();
-</script>
 </body>
 </html>
