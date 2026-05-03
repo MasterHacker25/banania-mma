@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blender</title>
+    <title>Blender - Planetary Ages</title>
 
     <style>
         body {
@@ -76,12 +76,92 @@
             color: #475569;
         }
 
+        /* Age calculator styling */
+        .calculator-container {
+            max-width: 800px;
+            margin: 40px auto 20px;
+            padding: 20px;
+            background: #f0e6d2;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .calculator-container h3 {
+            margin-top: 0;
+            color: #3b2f2f;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+
+        .input-group input {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            width: 200px;
+        }
+
+        .input-group button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background: #d2a679;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .input-group button:hover {
+            background: #b88a5a;
+        }
+
+        .feedback {
+            font-style: italic;
+            color: #2c5f2d;
+            margin-bottom: 15px;
+        }
+
+        .planet-ages {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+            text-align: left;
+        }
+
+        .planet-age-item {
+            background: #fff8ed;
+            padding: 8px 12px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            border: 1px solid #e2d5b6;
+        }
+
+        .planet-name {
+            font-weight: bold;
+            color: #5a3e2b;
+        }
+
+        .age-value {
+            color: #1e5631;
+            font-family: monospace;
+        }
+
         footer {
             text-align: center;
             padding: 15px;
             background: #d2a679;
             color: #3b2f2f;
             font-size: 14px;
+            margin-top: 40px;
         }
 
         @media (max-width: 768px) {
@@ -143,9 +223,85 @@
     <div class="text">Neptune - Placeholder description.</div>
 </div>
 
+<!-- ========== AGE CALCULATOR SECTION ========== -->
+<div class="calculator-container">
+    <h3>🌍 Planetary Age Calculator</h3>
+    <p>Enter your age in Earth years to see how old you would be on other planets (based on orbital periods).</p>
+    <div class="input-group">
+        <input type="number" id="earthAge" placeholder="Your age on Earth (years)" step="any">
+        <button id="calculatePlanetAges">Calculate</button>
+    </div>
+    <div class="feedback" id="ageCalculatorFeedback"></div>
+
+    <div class="planet-ages" id="planetAgesContainer">
+        <div class="planet-age-item"><span class="planet-name">Mercury:</span> <span id="mercury-age" class="age-value">—</span></div>
+        <div class="planet-age-item"><span class="planet-name">Venus:</span> <span id="venus-age" class="age-value">—</span></div>
+        <div class="planet-age-item"><span class="planet-name">Earth:</span> <span id="earth-age" class="age-value">—</span></div>
+        <div class="planet-age-item"><span class="planet-name">Mars:</span> <span id="mars-age" class="age-value">—</span></div>
+        <div class="planet-age-item"><span class="planet-name">Jupiter:</span> <span id="jupiter-age" class="age-value">—</span></div>
+        <div class="planet-age-item"><span class="planet-name">Saturn:</span> <span id="saturn-age" class="age-value">—</span></div>
+        <div class="planet-age-item"><span class="planet-name">Uranus:</span> <span id="uranus-age" class="age-value">—</span></div>
+        <div class="planet-age-item"><span class="planet-name">Neptune:</span> <span id="neptune-age" class="age-value">—</span></div>
+        <div class="planet-age-item"><span class="planet-name">Pluto:</span> <span id="pluto-age" class="age-value">—</span></div>
+    </div>
+</div>
+
 <footer>
     <p>© 2026 Multimedia and Authoring | Banania, Carl Alvin R.</p>
 </footer>
+
+<script>
+    const planetOrbitalPeriods = {
+      mercury: 0.24,
+      venus: 0.62,
+      earth: 1,
+      mars: 1.88,
+      jupiter: 11.86,
+      saturn: 29.46,
+      uranus: 84.01,
+      neptune: 164.8,
+      pluto: 248.6
+    };
+
+    function calculatePlanetAges() {
+      const ageInput = document.getElementById("earthAge");
+      const feedback = document.getElementById("ageCalculatorFeedback");
+      const earthAge = Number.parseFloat(ageInput.value);
+
+      if (!Number.isFinite(earthAge) || earthAge <= 0) {
+        feedback.textContent = "Please enter a valid age greater than zero.";
+        return;
+      }
+
+      feedback.textContent = "✓ Your solar system age comparison is ready.";
+
+      Object.entries(planetOrbitalPeriods).forEach(([planet, orbitalPeriod]) => {
+        const result = (earthAge / orbitalPeriod).toFixed(2);
+        const resultNode = document.getElementById(`${planet}-age`);
+        if (resultNode) {
+          resultNode.textContent = `${result} years`;
+        }
+      });
+    }
+
+    // Add event listeners after DOM is ready
+    document.addEventListener("DOMContentLoaded", () => {
+      const calcBtn = document.getElementById("calculatePlanetAges");
+      const ageField = document.getElementById("earthAge");
+
+      if (calcBtn) {
+        calcBtn.addEventListener("click", calculatePlanetAges);
+      }
+
+      if (ageField) {
+        ageField.addEventListener("keydown", (event) => {
+          if (event.key === "Enter") {
+            calculatePlanetAges();
+          }
+        });
+      }
+    });
+</script>
 
 </body>
 </html>
