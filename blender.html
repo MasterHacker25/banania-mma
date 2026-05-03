@@ -2,30 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blender - Planetary Ages</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Blender · Planetary Ages</title>
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             background: #fdf6e3;
             color: #1e293b;
+            line-height: 1.5;
         }
 
         header {
             text-align: center;
             padding: 40px 20px 20px;
+            position: relative;
         }
 
         header h1 {
             margin: 0;
             font-size: 36px;
+            letter-spacing: -0.5px;
         }
 
         header p {
             margin-top: 10px;
             color: #475569;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .back-btn {
@@ -34,144 +39,216 @@
             left: 20px;
             background: #d2a679;
             color: #3b2f2f;
-            padding: 8px 14px;
-            border-radius: 10px;
+            padding: 8px 16px;
+            border-radius: 20px;
             text-decoration: none;
             font-size: 14px;
-            transition: 0.3s;
+            font-weight: 500;
+            transition: background 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
         }
 
         .back-btn:hover {
             background: #b88a5a;
+            color: #fff8f0;
         }
 
+        /* Planet section layout – generous vertical spacing */
         .section {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 40px;
-            padding: 40px 20px;
-            max-width: 1000px;
-            margin: auto;
+            gap: 60px;                 /* wider gap between video and text */
+            padding: 50px 20px;        /* more vertical padding so sections feel separated */
+            max-width: 1100px;
+            margin: 0 auto;            /* no collapsing margins, spacing controlled by padding */
+            flex-wrap: wrap;
         }
 
         .section:nth-child(even) {
             flex-direction: row-reverse;
         }
 
+        /* Video container – uniform dimensions, consistent look */
         .video {
             width: 400px;
             height: 225px;
             background: #d2a679;
-            border-radius: 15px;
+            border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #3b2f2f;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            font-weight: 500;
+            box-shadow: 0 15px 25px rgba(0,0,0,0.15);
+            flex-shrink: 0;
+            overflow: hidden;          /* ensures iframe/video stays inside rounded corners */
+            position: relative;
         }
 
+        /* make iframe fill the .video container completely */
+        .video iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 18px;
+        }
+
+        /* Text column */
         .text {
-            max-width: 400px;
+            max-width: 380px;
             color: #475569;
+            font-size: 1.1rem;
+            background: rgba(255,248,237,0.6);
+            padding: 12px 16px;
+            border-radius: 16px;
         }
 
-        /* Age calculator styling */
+        /* Age calculator container */
         .calculator-container {
-            max-width: 800px;
-            margin: 40px auto 20px;
-            padding: 20px;
+            max-width: 850px;
+            margin: 50px auto 30px;    /* clear space above calculator */
+            padding: 30px 25px;
             background: #f0e6d2;
-            border-radius: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 28px;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.08);
             text-align: center;
+            border: 1px solid #e7d7b8;
         }
 
         .calculator-container h3 {
             margin-top: 0;
             color: #3b2f2f;
+            font-size: 1.8rem;
+        }
+
+        .calculator-container p {
+            color: #5c4b3a;
+            margin-bottom: 20px;
         }
 
         .input-group {
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             flex-wrap: wrap;
-            margin: 15px 0;
+            margin: 20px 0 15px;
         }
 
         .input-group input {
-            padding: 10px;
+            padding: 12px 16px;
             font-size: 16px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            width: 200px;
+            border-radius: 30px;
+            border: 1px solid #ccb690;
+            width: 220px;
+            background: #fffcf3;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .input-group input:focus {
+            border-color: #b88a5a;
+            box-shadow: 0 0 0 3px rgba(210,166,121,0.3);
         }
 
         .input-group button {
-            padding: 10px 20px;
+            padding: 12px 28px;
             font-size: 16px;
+            font-weight: 600;
             background: #d2a679;
             border: none;
-            border-radius: 8px;
+            border-radius: 30px;
             cursor: pointer;
-            transition: 0.3s;
+            color: #2e2416;
+            background: #d9b382;
+            transition: 0.25s;
+            letter-spacing: 0.3px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         .input-group button:hover {
             background: #b88a5a;
+            color: white;
         }
 
         .feedback {
             font-style: italic;
             color: #2c5f2d;
-            margin-bottom: 15px;
+            margin: 10px 0 20px;
+            font-weight: 500;
+            min-height: 24px;
         }
 
         .planet-ages {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 10px;
-            margin-top: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
             text-align: left;
         }
 
         .planet-age-item {
             background: #fff8ed;
-            padding: 8px 12px;
-            border-radius: 12px;
+            padding: 10px 16px;
+            border-radius: 16px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
             border: 1px solid #e2d5b6;
+            font-size: 0.98rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
         }
 
         .planet-name {
-            font-weight: bold;
+            font-weight: 700;
             color: #5a3e2b;
         }
 
         .age-value {
             color: #1e5631;
-            font-family: monospace;
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            background: #f3efe2;
+            padding: 2px 8px;
+            border-radius: 20px;
         }
 
         footer {
             text-align: center;
-            padding: 15px;
+            padding: 25px 20px;
             background: #d2a679;
             color: #3b2f2f;
             font-size: 14px;
-            margin-top: 40px;
+            margin-top: 50px;
+            font-weight: 500;
         }
 
+        /* responsive behaviour */
         @media (max-width: 768px) {
             .section {
                 flex-direction: column !important;
+                gap: 30px;
+                padding: 40px 20px;
+            }
+            .video {
+                width: 100%;
+                max-width: 400px;
+                height: auto;
+                aspect-ratio: 16 / 9;   /* maintain video shape on small screens */
+            }
+            .text {
+                max-width: 100%;
+                text-align: center;
+            }
+            header h1 {
+                font-size: 2.2rem;
             }
         }
     </style>
 </head>
-
 <body>
 
 <a href="index.html" class="back-btn">← Back</a>
@@ -181,8 +258,7 @@
     <p>Showcase of planetary renders and animations created in Blender.</p>
 </header>
 
-<!-- 8 SECTIONS (PLANETS) -->
-
+<!-- 8 PLANET SECTIONS – all placeholders preserved, spacing fixed -->
 <div class="section">
     <div class="video">Video Placeholder</div>
     <div class="text">Mercury - Placeholder description.</div>
@@ -194,7 +270,15 @@
 </div>
 
 <div class="section">
-    <div class="video"><iframe width="1217" height="557" src="https://www.youtube.com/embed/_Mo1C1-xHws" title="Earth TEST" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+    <div class="video">
+        <!-- Earth video: using iframe, but container keeps uniform size -->
+        <iframe src="https://www.youtube.com/embed/_Mo1C1-xHws" 
+                title="Earth TEST" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" 
+                allowfullscreen>
+        </iframe>
+    </div>
     <div class="text">Earth - Placeholder description.</div>
 </div>
 
@@ -223,12 +307,12 @@
     <div class="text">Neptune - Placeholder description.</div>
 </div>
 
-<!-- ========== AGE CALCULATOR SECTION ========== -->
+<!-- ========== AGE CALCULATOR (unchanged functionality, style refined) ========== -->
 <div class="calculator-container">
     <h3>🌍 Planetary Age Calculator</h3>
     <p>Enter your age in Earth years to see how old you would be on other planets (based on orbital periods).</p>
     <div class="input-group">
-        <input type="number" id="earthAge" placeholder="Your age on Earth (years)" step="any">
+        <input type="number" id="earthAge" placeholder="Your age on Earth (years)" step="any" aria-label="Earth age input">
         <button id="calculatePlanetAges">Calculate</button>
     </div>
     <div class="feedback" id="ageCalculatorFeedback"></div>
@@ -252,54 +336,53 @@
 
 <script>
     const planetOrbitalPeriods = {
-      mercury: 0.24,
-      venus: 0.62,
-      earth: 1,
-      mars: 1.88,
-      jupiter: 11.86,
-      saturn: 29.46,
-      uranus: 84.01,
-      neptune: 164.8,
-      pluto: 248.6
+        mercury: 0.24,
+        venus: 0.62,
+        earth: 1,
+        mars: 1.88,
+        jupiter: 11.86,
+        saturn: 29.46,
+        uranus: 84.01,
+        neptune: 164.8,
+        pluto: 248.6
     };
 
     function calculatePlanetAges() {
-      const ageInput = document.getElementById("earthAge");
-      const feedback = document.getElementById("ageCalculatorFeedback");
-      const earthAge = Number.parseFloat(ageInput.value);
+        const ageInput = document.getElementById("earthAge");
+        const feedback = document.getElementById("ageCalculatorFeedback");
+        const earthAge = Number.parseFloat(ageInput.value);
 
-      if (!Number.isFinite(earthAge) || earthAge <= 0) {
-        feedback.textContent = "Please enter a valid age greater than zero.";
-        return;
-      }
-
-      feedback.textContent = "✓ Your solar system age comparison is ready.";
-
-      Object.entries(planetOrbitalPeriods).forEach(([planet, orbitalPeriod]) => {
-        const result = (earthAge / orbitalPeriod).toFixed(2);
-        const resultNode = document.getElementById(`${planet}-age`);
-        if (resultNode) {
-          resultNode.textContent = `${result} years`;
+        if (!Number.isFinite(earthAge) || earthAge <= 0) {
+            feedback.textContent = "Please enter a valid age greater than zero.";
+            return;
         }
-      });
+
+        feedback.textContent = "✓ Your solar system age comparison is ready.";
+
+        Object.entries(planetOrbitalPeriods).forEach(([planet, orbitalPeriod]) => {
+            const result = (earthAge / orbitalPeriod).toFixed(2);
+            const resultNode = document.getElementById(`${planet}-age`);
+            if (resultNode) {
+                resultNode.textContent = `${result} years`;
+            }
+        });
     }
 
-    // Add event listeners after DOM is ready
     document.addEventListener("DOMContentLoaded", () => {
-      const calcBtn = document.getElementById("calculatePlanetAges");
-      const ageField = document.getElementById("earthAge");
+        const calcBtn = document.getElementById("calculatePlanetAges");
+        const ageField = document.getElementById("earthAge");
 
-      if (calcBtn) {
-        calcBtn.addEventListener("click", calculatePlanetAges);
-      }
+        if (calcBtn) {
+            calcBtn.addEventListener("click", calculatePlanetAges);
+        }
 
-      if (ageField) {
-        ageField.addEventListener("keydown", (event) => {
-          if (event.key === "Enter") {
-            calculatePlanetAges();
-          }
-        });
-      }
+        if (ageField) {
+            ageField.addEventListener("keydown", (event) => {
+                if (event.key === "Enter") {
+                    calculatePlanetAges();
+                }
+            });
+        }
     });
 </script>
 
