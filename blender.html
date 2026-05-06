@@ -1,34 +1,56 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Blender · Planetary Ages</title>
+
+    <!-- Space font -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
     <style>
         body {
             margin: 0;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: #fdf6e3;
-            color: #1e293b;
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top, #0b0f2a, #02040f 80%);
+            color: #e2e8f0;
             line-height: 1.5;
+            overflow-x: hidden;
         }
+
+        /* subtle star field */
+        body::before {
+    content: "";
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(white 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.08;
+    z-index: 0;
+
+    pointer-events: none; /* ✅ THIS FIXES YOUR PROBLEM */
+}
 
         header {
             text-align: center;
             padding: 40px 20px 20px;
             position: relative;
-            z-index: 10; /* Ensure header stays above other content */
+            z-index: 10;
         }
 
         header h1 {
             margin: 0;
-            font-size: 36px;
-            letter-spacing: -0.5px;
+            font-size: 38px;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+            color: #7dd3fc;
+            text-shadow: 0 0 12px rgba(125,211,252,0.6);
         }
 
         header p {
             margin-top: 10px;
-            color: #475569;
+            color: #94a3b8;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
@@ -38,26 +60,24 @@
             position: absolute;
             top: 20px;
             left: 20px;
-            background: #d2a679;
-            color: #3b2f2f;
+            background: rgba(59,130,246,0.15);
+            color: #93c5fd;
             padding: 8px 16px;
             border-radius: 20px;
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
-            transition: background 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-            z-index: 100; /* HIGH z-index to ensure it's always clickable */
-            cursor: pointer;
-            display: inline-block;
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(147,197,253,0.3);
+            transition: 0.3s;
+            z-index: 100;
         }
 
         .back-btn:hover {
-            background: #b88a5a;
-            color: #fff8f0;
+            background: rgba(59,130,246,0.35);
+            color: white;
         }
 
-        /* Planet section layout – generous vertical spacing */
         .section {
             display: flex;
             align-items: center;
@@ -68,34 +88,30 @@
             margin: 0 auto;
             flex-wrap: wrap;
             position: relative;
-            z-index: 1; /* Lower than header/button */
+            z-index: 1;
         }
 
         .section:nth-child(even) {
             flex-direction: row-reverse;
         }
 
-        /* Video container – uniform dimensions */
         .video {
             width: 400px;
             height: 225px;
-            background: #d2a679;
+            background: linear-gradient(145deg, #1e293b, #020617);
             border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #3b2f2f;
+            color: #94a3b8;
             font-weight: 500;
-            box-shadow: 0 15px 25px rgba(0,0,0,0.15);
-            flex-shrink: 0;
+            box-shadow: 0 0 25px rgba(59,130,246,0.2);
             overflow: hidden;
             position: relative;
         }
 
         .video iframe {
             position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
             border: none;
@@ -104,119 +120,89 @@
 
         .text {
             max-width: 380px;
-            color: #475569;
+            color: #cbd5f5;
             font-size: 1.1rem;
-            background: rgba(255,248,237,0.6);
-            padding: 12px 16px;
+            background: rgba(15,23,42,0.6);
+            padding: 14px 18px;
             border-radius: 16px;
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(148,163,184,0.15);
         }
 
-        /* Age calculator container */
         .calculator-container {
             max-width: 850px;
             margin: 50px auto 30px;
             padding: 30px 25px;
-            background: #f0e6d2;
+            background: rgba(15,23,42,0.8);
             border-radius: 28px;
-            box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+            box-shadow: 0 0 30px rgba(59,130,246,0.15);
             text-align: center;
-            border: 1px solid #e7d7b8;
-            position: relative;
-            z-index: 1;
+            border: 1px solid rgba(148,163,184,0.2);
         }
 
         .calculator-container h3 {
             margin-top: 0;
-            color: #3b2f2f;
-            font-size: 1.8rem;
+            font-family: 'Orbitron', sans-serif;
+            color: #7dd3fc;
+            letter-spacing: 1px;
         }
 
         .calculator-container p {
-            color: #5c4b3a;
-            margin-bottom: 20px;
-        }
-
-        .input-group {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin: 20px 0 15px;
+            color: #94a3b8;
         }
 
         .input-group input {
             padding: 12px 16px;
-            font-size: 16px;
             border-radius: 30px;
-            border: 1px solid #ccb690;
+            border: 1px solid rgba(148,163,184,0.3);
             width: 220px;
-            background: #fffcf3;
-            outline: none;
-            transition: 0.2s;
+            background: #020617;
+            color: white;
         }
 
         .input-group input:focus {
-            border-color: #b88a5a;
-            box-shadow: 0 0 0 3px rgba(210,166,121,0.3);
+            border-color: #38bdf8;
+            box-shadow: 0 0 8px rgba(56,189,248,0.6);
         }
 
         .input-group button {
             padding: 12px 28px;
-            font-size: 16px;
             font-weight: 600;
-            background: #d9b382;
+            background: linear-gradient(135deg, #2563eb, #06b6d4);
             border: none;
             border-radius: 30px;
             cursor: pointer;
-            color: #2e2416;
-            transition: 0.25s;
-            letter-spacing: 0.3px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            color: white;
+            transition: 0.3s;
         }
 
         .input-group button:hover {
-            background: #b88a5a;
-            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(56,189,248,0.7);
         }
 
         .feedback {
             font-style: italic;
-            color: #2c5f2d;
+            color: #22c55e;
             margin: 10px 0 20px;
-            font-weight: 500;
-            min-height: 24px;
-        }
-
-        .planet-ages {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-            gap: 12px;
-            margin-top: 20px;
-            text-align: left;
         }
 
         .planet-age-item {
-            background: #fff8ed;
+            background: rgba(30,41,59,0.8);
             padding: 10px 16px;
             border-radius: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid #e2d5b6;
-            font-size: 0.98rem;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+            border: 1px solid rgba(148,163,184,0.2);
         }
 
         .planet-name {
             font-weight: 700;
-            color: #5a3e2b;
+            color: #93c5fd;
         }
 
         .age-value {
-            color: #1e5631;
+            color: #22c55e;
             font-family: 'Courier New', monospace;
-            font-weight: 600;
-            background: #f3efe2;
+            background: #020617;
             padding: 2px 8px;
             border-radius: 20px;
         }
@@ -224,40 +210,10 @@
         footer {
             text-align: center;
             padding: 25px 20px;
-            background: #d2a679;
-            color: #3b2f2f;
+            background: #020617;
+            color: #64748b;
             font-size: 14px;
             margin-top: 50px;
-            font-weight: 500;
-            position: relative;
-            z-index: 1;
-        }
-
-        @media (max-width: 768px) {
-            .section {
-                flex-direction: column !important;
-                gap: 30px;
-                padding: 40px 20px;
-            }
-            .video {
-                width: 100%;
-                max-width: 400px;
-                height: auto;
-                aspect-ratio: 16 / 9;
-            }
-            .text {
-                max-width: 100%;
-                text-align: center;
-            }
-            header h1 {
-                font-size: 2.2rem;
-            }
-            .back-btn {
-                top: 10px;
-                left: 10px;
-                padding: 6px 12px;
-                font-size: 13px;
-            }
         }
     </style>
 </head>
