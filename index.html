@@ -4,31 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homepage</title>
+
+    <!-- Cleaner font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #fdf6e3; /* cream background */
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom, #fdf6e3, #f7eed8);
             color: #1e293b;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
-        }
-
-        header {
-            text-align: center;
-            padding: 40px 20px 20px; /* added more breathing space */
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 36px;
-        }
-
-        header p {
-            margin-top: 10px;
-            font-size: 16px;
-            color: #475569;
         }
 
         .main {
@@ -37,44 +29,83 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 40px; /* more spacing between title and cards */
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            max-width: 700px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 42px;
+            font-weight: 600;
+            color: #3b2f2f;
+        }
+
+        header p {
+            margin-top: 14px;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #6b7280;
         }
 
         .container {
             display: flex;
-            gap: 40px;
-        }
-
-        .card {
-            width: 200px;
-            height: 200px;
-            background: #d2a679; /* light brown */
-            color: #3b2f2f; /* darker brown text for better contrast */
-            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
             justify-content: center;
-            align-items: center;
-            border-radius: 20px;
-            font-size: 20px;
-            cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-
-        .card:hover {
-            transform: scale(1.05);
-            background: #b88a5a; /* darker brown on hover */
         }
 
         a {
             text-decoration: none;
         }
 
+        .card {
+            width: 220px;
+            height: 220px;
+            background: #d2a679;
+            border-radius: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #3b2f2f;
+            font-size: 22px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            background: #c49566;
+            box-shadow: 0 14px 28px rgba(0,0,0,0.16);
+        }
+
         footer {
             text-align: center;
-            padding: 15px;
-            background: #d2a679; /* light brown footer */
+            padding: 18px;
+            background: rgba(210, 166, 121, 0.75);
+            backdrop-filter: blur(5px);
             color: #3b2f2f;
             font-size: 14px;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 32px;
+            }
+
+            .card {
+                width: 180px;
+                height: 180px;
+                font-size: 20px;
+            }
         }
     </style>
 </head>
@@ -83,7 +114,10 @@
 <div class="main">
     <header>
         <h1>Multimedia and Authoring Portfolio</h1>
-        <p>This is a short placeholder description for your website. You can change this anytime.</p>
+        <p>
+            Explore my projects in multimedia editing and 3D creation.
+            This portfolio showcases my work in rotoscoping and Blender.
+        </p>
     </header>
 
     <div class="container">
