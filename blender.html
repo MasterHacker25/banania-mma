@@ -10,26 +10,55 @@
 
     <style>
         body {
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            background: radial-gradient(circle at top, #0b0f2a, #02040f 80%);
-            color: #e2e8f0;
-            line-height: 1.5;
-            overflow-x: hidden;
-        }
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #000000;
+    color: #e2e8f0;
+    line-height: 1.5;
+    overflow-x: hidden;
+    position: relative;
+}
 
-        /* subtle star field */
-        body::before {
+/* Main stars */
+body::before {
     content: "";
     position: fixed;
-    width: 100%;
-    height: 100%;
-    background-image: radial-gradient(white 1px, transparent 1px);
-    background-size: 40px 40px;
-    opacity: 0.08;
-    z-index: 0;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
 
-    pointer-events: none; /* ✅ THIS FIXES YOUR PROBLEM */
+    background:
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.9) 1px, transparent 2px),
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,0.8) 1.5px, transparent 2px),
+        radial-gradient(circle at 50% 70%, rgba(255,255,255,0.9) 1px, transparent 2px),
+        radial-gradient(circle at 10% 80%, rgba(255,255,255,0.7) 2px, transparent 3px),
+        radial-gradient(circle at 90% 60%, rgba(255,255,255,0.8) 1px, transparent 2px),
+        radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px);
+
+    background-size:
+        300px 300px,
+        500px 500px,
+        400px 400px,
+        600px 600px,
+        350px 350px,
+        120px 120px;
+
+    opacity: 0.9;
+}
+
+/* Tiny distant stars layer */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+
+    background-image:
+        radial-gradient(white 0.7px, transparent 1px);
+
+    background-size: 70px 70px;
+    opacity: 0.35;
 }
 
         header {
